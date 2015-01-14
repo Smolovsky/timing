@@ -1,0 +1,2 @@
+module Persons::OmniauthCallbacksHelper
+end

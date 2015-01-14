@@ -1,0 +1,28 @@
+%h1 Listing persons
+
+%table.table.table-hover
+  %thead
+    %tr
+      %th Username
+      %th Nickname
+      %th Provider
+      %th Url
+      %th
+      %th
+      %th
+
+  %tbody
+    - @users.each do |user|
+      %tr
+        %td= user.username
+        %td= user.nickname
+        %td= user.provider
+        %td= user.url
+        %td= link_to 'Show', person_path(user)
+        %td= link_to 'Edit', edit_person_path(user)
+        %td= link_to 'Destroy', persons_path(user), method: :delete, data: { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New User', new_person_path
+
