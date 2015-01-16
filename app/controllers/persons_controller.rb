@@ -5,7 +5,11 @@ class PersonsController < ApplicationController
 
   def index
     @users = User.all
-    respond_with(@users)
+    redirect_to(@users)
+  end
+
+  def im
+    redirect_to :back
   end
 
   def show
@@ -28,12 +32,12 @@ class PersonsController < ApplicationController
 
   def update
     @user.update(user_params)
-    respond_with(@user)
+    redirect_to :back
   end
 
   def destroy
     @user.destroy
-    respond_with(@user)
+    respond_with(persons_path)
   end
 
   private
@@ -42,6 +46,8 @@ class PersonsController < ApplicationController
     end
 
     def user_params
+      #user = User.find(params[:id])
+      #binding.pry
       params.require(:user).permit(:username, :nickname, :provider, :url)
     end
 end

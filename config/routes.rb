@@ -5,9 +5,19 @@ Rails.application.routes.draw do
     get 'omniauth_callbacks/vkontakte'
   end
 
+  post 'ajax',to: 'days#ajax'
+
   resources :persons
+
+  get   'persons/im', to: 'persons#im'   #, as: 'user_im'
+  post  'persons/:id/edit', to: 'persons#update'
+
+
   root 'hello#index'
   devise_for :users, :controllers => {  :omniauth_callbacks => "persons/omniauth_callbacks" }
+
+
+
   #resources :persons, :only => [:index, :destroy]
   #root :to => 'persons#index'
 

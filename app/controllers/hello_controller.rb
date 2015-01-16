@@ -1,5 +1,8 @@
 class HelloController < ApplicationController
+ # respond_to :js
+
   def index
-    @users = User.all
+    @days = Day.all.order(:date)
   end
+
 end

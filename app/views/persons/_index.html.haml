@@ -20,7 +20,7 @@
         %td= user.url
         %td= link_to 'Show', person_path(user)
         %td= link_to 'Edit', edit_person_path(user)
-        %td= link_to 'Destroy', persons_path(user), method: :delete, data: { :confirm => 'Are you sure?' }
+        %td= link_to 'Destroy', person_path(user) , method: :delete, data: { :confirm => 'Are you sure?' }
 
 %br
 

@@ -18,15 +18,20 @@
             %li
               %a{:href => '/about.html'} About
             %li
-              %a{:href => '/clients.html'} Clients
+              %a{:href => persons_path} Clients
           .visible-md.visible-lg{:style => 'height:0px;width:150px;margin:0 auto;'}
             %div{:style => 'position:fixed; text-align:center; width:150px;z-index:999; height:20px; top:5px;'}
-              =link_to image_tag('logo.png', width: '50', height: '50'), root_path
+              =link_to image_tag('logo.png', width: '75', height: '75'), root_path
           %ul.nav.navbar-nav.navbar-right
             - if user_signed_in?
               %li
                 = link_to 'Выйти', destroy_user_session_path, :method => :delete
             - else
+
+              %li
+                = link_to image_tag('Twitter-round.png', class: "auth_img"), user_omniauth_authorize_path(:vkontakte), style: 'padding: 0px 5px;'
+              %li
+                = link_to image_tag('Facebook-Round.png', class: "auth_img"), user_omniauth_authorize_path(:facebook), style: 'padding: 0px 5px;'
               %li
                 = link_to 'Войти', new_user_session_path
               %li
