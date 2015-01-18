@@ -2,7 +2,7 @@ $(document).on('ready', ()=>
   @app_config = {
     id_button_start: 'button_start'
     id_time_view: 'time_view'
-    #id_table_view : 'button_nonpressed'
+    id_task_info : 'task_properties'
     class_button_pressed: 'button_start_pressed'
   }
 
@@ -19,6 +19,7 @@ class Timer
     @is_start_pressed = false
     @local_starage_key_is_started ='is_timer_started'
     @local_starage_key_start_date ='timer_start_date'
+    @task_id=''
 
   #TODO: КУКИ при загрузке страницы
   #$(window).bind('onload', ->
@@ -27,9 +28,10 @@ class Timer
   #)
 
   init_data: ()=>
-    @time_view = $('#'+@app_config.id_time_view)
+    @time_view = $('#'+@app_config.id_time_view)[0]
     @button_start = $('#'+@app_config.id_button_start)
     @time_view.innerHTML = "00:00:00"
+    @task_id = $('#'+@app_config.id_task_info)[0].getAttribute('task_id')
 
     @button_start.on('click', () =>
       if @is_start_pressed
@@ -38,18 +40,19 @@ class Timer
         @start_timer()
     )
 
+    @load_start_date_from_local_storage()
+
   start_timer: ()=>
-    if localStorage.getItem(@local_starage_key_is_started) == 'true'
-      alert('Таймер запущен на другой странице')
-    else
-      @load_start_date_from_local_storage()
-      @save_to_local_storage(@local_starage_key_is_started, 'true')
-      @save_to_local_storage(@local_starage_key_start_date, @start_date)
+    @save_to_local_storage(@local_starage_key_is_started, 'true')
+    @save_to_local_storage(@local_starage_key_start_date, @start_date)
 
-      @is_start_pressed = true
-      @button_start.addClass(@app_config.class_button_pressed)
+    @is_start_pressed = true
+    @button_start.addClass(@app_config.class_button_pressed)
 
-      #@timer_updater = setInterval(@set_time_view, 500) #//-----------------------------------------
+    if @start_date is undefined
+      @start_date = new Date
+      
+    @timer_updater = setInterval(@set_time_view, 500)
 
   stop_timer:()=>
     @save_to_local_storage(@local_starage_key_is_started, 'false')
@@ -57,6 +60,7 @@ class Timer
     #document.cookie = "start_date=; expires=Thu, 01 Jan 1970 00:00:00 UTC"
 
     @is_start_pressed = false
+
     @button_start.removeClass(@app_config.class_button_pressed)
     clearInterval(@timer_updater)
 
@@ -65,13 +69,25 @@ class Timer
       localStorage.setItem(key, value)
 
   save_time_to_server: ()=>
+    params ={
+      task_id: @task_id
+      time:@get_time_from_start()
+    }
+
     $.ajax(
       type: "POST",
       url: "ajax",
-      data: "time=" + @get_time_from_start(),
+      data: params,
       success: ()=>
         @stop_timer()
     )
+
+  load_start_date_from_local_storage: ()=>
+    if localStorage.getItem(@local_starage_key_start_date) and localStorage.getItem(@local_starage_key_is_started)
+      @start_date = new Date(localStorage.getItem(@local_starage_key_start_date))
+      @start_timer()
+    else
+      @start_date = new Date
 
  #TODO: если наступает следующий день то время разбивается на два дня: закончившийся и наступивший.
   set_time_view: =>
@@ -94,12 +110,5 @@ class Timer
     date.setSeconds(date.getSeconds() - @start_date.getSeconds())
 
     date
-
-  load_start_date_from_local_storage: ()=>
-    if localStorage.getItem(@local_starage_key_start_date)
-      @start_date = new Date(localStorage.getItem(@local_starage_key_start_date))
-    else
-      @start_date = new Date
-
 
   #TODO: настроить нормально закрытие окна при запущенно таймере

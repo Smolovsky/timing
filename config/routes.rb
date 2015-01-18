@@ -9,7 +9,7 @@ Rails.application.routes.draw do
     get 'omniauth_callbacks/vkontakte'
   end
 
-  post 'ajax',to: 'days#ajax'
+  post 'tasks/ajax',to: 'days#ajax'
   get   'person/im', to: 'persons#im' , as: 'user_im'
   post  'persons/:id/edit', to: 'persons#update'
 

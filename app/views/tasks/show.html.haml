@@ -3,16 +3,16 @@
 %p
   %b Name:
   = @task.name
-%p
   %b Time to plan:
   = @task.time_to_plan
+  %span#task_properties{task_id: @task.id}
 .custom
   .outercontainer.home1
+    %h1#time_view 000000
+    =image_tag('button1.png', id: 'button_start')
     .container{:style => 'position:relative;'}
-      -@days = Day.all
-      = render template: 'days/show' , :days =>@days
-      %h1#time_view
-      =image_tag('button1.png', id: 'button_start')
+      = render template: 'days/show' , task_id: @task.id
+
 
 = link_to 'Edit', edit_task_path(@task)
 \|

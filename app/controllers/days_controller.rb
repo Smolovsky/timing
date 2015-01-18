@@ -1,19 +1,30 @@
 class DaysController < ApplicationController
 
-  def show
-    @days = Day.all
+  def show(task_id)
+
+    if task_id.nil?
+      @days = Day.all
+    else
+      @days = Day.find_by_task_id(task_id)
+    end
   end
 
   def ajax
-    @days = Day.all.order(:date)
+    #@task = Task.where(id: )
+    task_id = params[:task_id]
+
+    @days = Day.find_by_task_id(task_id)#.order(:date)
     time = params[:time].to_time(:utc)
+
 
     respond_to do |format|
 
       format.js do
-        @line = current_user.days.find_or_initialize_by(:date => Time.now.to_date)
+        @line = Day.find_or_initialize_by(date: Time.now.to_date, task_id: task_id )
+
         if @line.save_time(time)
-          render 'ajax', format: :js
+          @days =Array Day.find_by_task_id(task_id)
+          render 'ajax',days: @days, format: :js
         end
       end
 

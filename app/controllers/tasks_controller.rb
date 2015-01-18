@@ -14,8 +14,8 @@ class TasksController < ApplicationController
   #end
 
   def show
-
-    respond_with(@task)
+    @days = Array(Day.find_by_task_id(@task.id))
+    respond_with(@task, @days)
   end
 
   def new
