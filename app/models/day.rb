@@ -1,9 +1,9 @@
 class Day < ActiveRecord::Base
-  belongs_to :user
+  belongs_to :task
 
   def index
-    @user = current_user unless current_user.nil?
-    @days = Day.where(:user_id => @user.id) unless @user.nil?
+    #@user = current_user unless current_user.nil?
+    #@days = Day.where(:user_id => @user.id) unless @user.nil?
   end
 
 

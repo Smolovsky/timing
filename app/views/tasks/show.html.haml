@@ -1,0 +1,19 @@
+%p#notice= notice
+
+%p
+  %b Name:
+  = @task.name
+%p
+  %b Time to plan:
+  = @task.time_to_plan
+.custom
+  .outercontainer.home1
+    .container{:style => 'position:relative;'}
+      -@days = Day.all
+      = render template: 'days/show' , :days =>@days
+      %h1#time_view
+      =image_tag('button1.png', id: 'button_start')
+
+= link_to 'Edit', edit_task_path(@task)
+\|
+= link_to 'Back', tasks_path

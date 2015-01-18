@@ -5,11 +5,12 @@ class PersonsController < ApplicationController
 
   def index
     @users = User.all
-    redirect_to(@users)
+    respond_with(@users)
   end
 
   def im
-    redirect_to :back
+    @users = User.all
+    respond_with(@users)
   end
 
   def show

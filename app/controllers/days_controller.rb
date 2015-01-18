@@ -1,4 +1,9 @@
 class DaysController < ApplicationController
+
+  def show
+    @days = Day.all
+  end
+
   def ajax
     @days = Day.all.order(:date)
     time = params[:time].to_time(:utc)

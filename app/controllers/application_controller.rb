@@ -20,6 +20,6 @@ before_filter :authenticate_user_from_token!
   # The path used after sign up. You need to overwrite this method
   # in your own RegistrationsController.
   def after_sign_in_path_for(resource)
-    persons_im_path
+    user_im_path
   end
 end

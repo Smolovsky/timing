@@ -5,6 +5,7 @@ class CreateDays < ActiveRecord::Migration
       t.string :datetime
       t.string :time_to_plane
       t.string :actual_time
+      t.integer :user_id
 
       t.timestamps
     end

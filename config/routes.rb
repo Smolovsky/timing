@@ -1,32 +1,30 @@
 Rails.application.routes.draw do
 
+  root 'hello#index'
+
+  resources :tasks, :persons, :days
+
   namespace :persons do
     get 'omniauth_callbacks/facebook'
     get 'omniauth_callbacks/vkontakte'
   end
 
   post 'ajax',to: 'days#ajax'
-
-  resources :persons
-
-  get   'persons/im', to: 'persons#im'   #, as: 'user_im'
+  get   'person/im', to: 'persons#im' , as: 'user_im'
   post  'persons/:id/edit', to: 'persons#update'
 
+  devise_for :users, :controllers => {  :omniauth_callbacks => "persons/omniauth_callbacks" ,:sessions => 'sessions', :registrations => 'registrations'}
 
-  root 'hello#index'
-  devise_for :users, :controllers => {  :omniauth_callbacks => "persons/omniauth_callbacks" }
 
 
 
   #resources :persons, :only => [:index, :destroy]
   #root :to => 'persons#index'
 
-
   #resources :persons do
     #root :to => 'persons#index'
     #devise_for :persons
   #end
-
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
