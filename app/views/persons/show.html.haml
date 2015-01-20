@@ -7,12 +7,10 @@
   %b Nickname:
   = @user.nickname
 %p
-  %b Provider:
-  = @user.provider
-%p
-  %b Url:
-  = @user.url
+  %b Email:
+  = @user.email
+
 
 = link_to 'Edit', edit_person_path(@user)
 \|
-= link_to 'Back', person_path
+= link_to 'Back', :back

@@ -11,6 +11,6 @@
     = f.text_field :name
   .field
     = f.label :time_to_plan
-    = f.text_field :time_to_plan
+    = f.time_select :time_to_plan
   .actions
-    = f.submit 'Create task'
+    = f.submit 'Save', action: :back

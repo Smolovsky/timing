@@ -9,8 +9,8 @@ class PersonsController < ApplicationController
   end
 
   def im
-    @users = User.all
-    respond_with(@users)
+    @user = current_user
+    respond_with(@user)
   end
 
   def show

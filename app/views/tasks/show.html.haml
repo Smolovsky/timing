@@ -1,19 +1,18 @@
 %p#notice= notice
 
 %p
-  %b Name:
-  = @task.name
-  %b Time to plan:
-  = @task.time_to_plan
-  %span#task_properties{task_id: @task.id}
 .custom
   .outercontainer.home1
+    = link_to 'Edit', edit_task_path(@task)
+    \|
+    = @task.name
+    %b Plan:
+    = @task.time_to_plan.to_formatted_s(:only_time)
+    %b Total:
+    = get_total_time @task
+    %span#task_properties{task_id: @task.id}
+
     %h1#time_view 000000
     =image_tag('button1.png', id: 'button_start')
     .container{:style => 'position:relative;'}
       = render template: 'days/show' , task_id: @task.id
-
-
-= link_to 'Edit', edit_task_path(@task)
-\|
-= link_to 'Back', tasks_path

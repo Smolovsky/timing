@@ -1,0 +1,15 @@
+%p#notice= notice
+
+%p
+  %b Date:
+  = @session_of_timer.date
+%p
+  %b Day:
+  = @session_of_timer.day_id
+%p
+  %b Time in work:
+  = @session_of_timer.time_in_work
+
+= link_to 'Edit', edit_session_of_timer_path(@session_of_timer)
+\|
+= link_to 'Back', session_of_timers_path

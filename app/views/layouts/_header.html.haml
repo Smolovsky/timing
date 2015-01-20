@@ -16,7 +16,7 @@
             %li
               =link_to 'My tasks', tasks_path
             %li
-              %a{:href => '/about.html'} About
+              =link_to 'My profile', user_im_path
             %li
               %a{:href => persons_path} Clients
           .visible-md.visible-lg{:style => 'height:0px;width:150px;margin:0 auto;'}
@@ -25,7 +25,9 @@
           %ul.nav.navbar-nav.navbar-right
             - if user_signed_in?
               %li
-                = link_to 'Выйти', destroy_user_session_path, :method => :delete
+                %span.username__
+                  = current_user.username
+                  = link_to 'Выйти', destroy_user_session_path, :method => :delete
             - else
 
               %li

@@ -4,24 +4,19 @@ class TasksController < ApplicationController
   respond_to :html
 
   def index
-   @tasks = Task.all
-   respond_with(@tasks)
+    @user = current_user unless current_user.nil?
+    @tasks = Task.where(user_id: @user.id)
+    respond_with(@tasks)
   end
-  #"#{def index
-    #{@user = current_user unless current_user.nil?
-  #  @tasks = Task.where(:user_id => @user.id) unless @user.nil?
-  #  #@days = Day.where(:task_id => @task.id)
-  #end
 
   def show
-    @days = Array(Day.find_by_task_id(@task.id))
+    @days = Day.where(task_id: @task.id)
     respond_with(@task, @days)
   end
 
   def new
     @task = Task.new
-    @user = current_user unless current_user.nil?
-    @task.user_id = @user.id
+    @task.time_to_plan = Time.at(1.hours)
     respond_with(@task)
   end
 
@@ -30,6 +25,9 @@ class TasksController < ApplicationController
 
   def create
     @task = Task.new(task_params)
+    @user = current_user unless current_user.nil?
+    @task.user_id = @user.id
+
     @task.save
     respond_with(@task)
   end

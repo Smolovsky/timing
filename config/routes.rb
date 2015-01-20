@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  resources :session_of_timers
+
   root 'hello#index'
 
   resources :tasks, :persons, :days
@@ -14,9 +16,6 @@ Rails.application.routes.draw do
   post  'persons/:id/edit', to: 'persons#update'
 
   devise_for :users, :controllers => {  :omniauth_callbacks => "persons/omniauth_callbacks" ,:sessions => 'sessions', :registrations => 'registrations'}
-
-
-
 
   #resources :persons, :only => [:index, :destroy]
   #root :to => 'persons#index'

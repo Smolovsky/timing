@@ -43,23 +43,25 @@ class Timer
     @load_start_date_from_local_storage()
 
   start_timer: ()=>
+    if @start_date is undefined
+      @start_date = new Date
+
     @save_to_local_storage(@local_starage_key_is_started, 'true')
     @save_to_local_storage(@local_starage_key_start_date, @start_date)
 
     @is_start_pressed = true
     @button_start.addClass(@app_config.class_button_pressed)
 
-    if @start_date is undefined
-      @start_date = new Date
-      
     @timer_updater = setInterval(@set_time_view, 500)
 
   stop_timer:()=>
-    @save_to_local_storage(@local_starage_key_is_started, 'false')
-    @save_to_local_storage(@local_starage_key_start_date, undefined )
+    localStorage.removeItem(@local_starage_key_is_started)
+    localStorage.removeItem(@local_starage_key_start_date)
+
     #document.cookie = "start_date=; expires=Thu, 01 Jan 1970 00:00:00 UTC"
 
     @is_start_pressed = false
+    @start_date = undefined
 
     @button_start.removeClass(@app_config.class_button_pressed)
     clearInterval(@timer_updater)

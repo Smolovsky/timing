@@ -1,11 +1,11 @@
 %h1 Listing tasks
 
-%table
+%table.table.main-table
   %thead
     %tr
       %th Name
       %th Time to plan
-      %th User
+      %th Total time
       %th
       %th
       %th
@@ -15,7 +15,7 @@
       %tr
         %td= task.name
         %td= task.time_to_plan
-        %td= task.user_id
+        %td= get_total_time task
         %td= link_to 'Show', task
         %td= link_to 'Edit', edit_task_path(task)
         %td= link_to 'Destroy', task, :method => :delete, :data => { :confirm => 'Are you sure?' }
