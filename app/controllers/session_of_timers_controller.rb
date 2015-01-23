@@ -1,4 +1,5 @@
 class SessionOfTimersController < ApplicationController
+  before_filter :authenticate_user!
   before_action :set_session_of_timer, only: [:show, :edit, :update, :destroy]
 
   respond_to :html

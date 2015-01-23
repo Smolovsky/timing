@@ -1,8 +1,9 @@
 class TasksController < ApplicationController
+  before_filter :authenticate_user!
   before_action :set_task, only: [:show, :edit, :update, :destroy]
 
   respond_to :html
-
+  
   def index
     @user = current_user unless current_user.nil?
     @tasks = Task.where(user_id: @user.id)

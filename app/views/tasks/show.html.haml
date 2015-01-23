@@ -3,13 +3,14 @@
 %p
 .custom
   .outercontainer.home1
-    = link_to 'Edit', edit_task_path(@task)
-    \|
-    = @task.name
+    = link_to "#{@task.name}", edit_task_path(@task)
     %b Plan:
     = @task.time_to_plan.to_formatted_s(:only_time)
+    %b Today:
+    = @task.get_today_time
     %b Total:
-    = get_total_time @task
+    %span#total_time
+      = @task.get_total_time @task
     %span#task_properties{task_id: @task.id}
 
     %h1#time_view 000000

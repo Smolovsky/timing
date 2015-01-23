@@ -1,4 +1,4 @@
-%table.table.main-table
+%table#days_view.table.main-table
   %thead
     %tr
       %th Day
@@ -10,6 +10,6 @@
         %td
           =d.date
         %td
-          4 часа
+          =d.time_to_plan.to_formatted_s(:only_time)
         %td
-          =d.get_sum_time_of_day(d.id)
+          =d.get_formatted_sum_time_of_day(d.id)

@@ -1,79 +1,63 @@
 class Day < ActiveRecord::Base
-  belongs_to :task, touch: true
+  belongs_to :task
   has_many :session_of_timers
 
-  def save_time(time, time_to_plan)
+  def save_time(time, time_to_plan,is_new_day)
     self.time_to_plan = time_to_plan
 
     if self.save
       true
     end
 
-    session_of_timers.create(date: Time.now.to_date, time_in_work: time.to_time, day_id: self.id)
+    date = Time.now
+    date -= 1.day if is_new_day
+
+    session_of_timers.create(date: date, time_in_work: time, day_id: self.id)
   end
 
-  def get_sum_time_of_day(day_id)
+  def get_formatted_sum_time_of_day(day_id)
     total_time = get_sum_time day_id
 
-    h = total_time.to_formatted_s(:only_hours).to_i
-    m = total_time.to_formatted_s(:only_minutes).to_i
-    s = total_time.to_formatted_s(:only_seconds).to_i
+    h = total_time/3600
+    m = (total_time-h*3600)/60
+    s = total_time - h*3600 - m*60
 
-     if h<10
-       h='0'+h.to_s
-     end
+    h='0'+h.to_s if h<10
+    m='0'+m.to_s if m<10
+    s='0'+s.to_s if s<10
 
-     if m<10
-       m='0'+m.to_s
-     end
-
-     if s<10
-       s='0'+s.to_s
-     end
-
-     "#{h}:#{m}:#{s}"
+    "#{h}:#{m}:#{s}"
   end
 
   def get_total_time_of_day(day_id, time_to_plan)
     total_time = get_sum_time day_id
-    is_negative = false
+    time_to_plan = get_int_from_date(time_to_plan)
 
-    if total_time < time_to_plan
+    if total_time <= time_to_plan
       total_time = time_to_plan - total_time
-      is_negative = true
     else
       total_time = total_time - time_to_plan
     end
-    #
-    # h = total_time.to_formatted_s(:only_hours).to_i
-    # m = total_time.to_formatted_s(:only_minutes).to_i
-    # s = total_time.to_formatted_s(:only_seconds).to_i
 
-    # if is_negative
-    #   h *= -1
-    # end
-
-    #{h: h, m: m, s: s}
-    total = total_time.to_i
-    total *=-1 if is_negative
-
-    total
+    total_time
   end
 
   def get_sum_time(day_id)
     intervals = SessionOfTimer.where(day_id: day_id)
-    # h=0; m=0; s=0
-    i=0;
-    intervals.each do |interval|
-      # h += interval.time_in_work.to_time.to_formatted_s(:only_hours).to_i
-      # m += interval.time_in_work.to_time.to_formatted_s(:only_minutes).to_i
-      # s += interval.time_in_work.to_time.to_formatted_s(:only_seconds).to_i
-      i +=interval.time_in_work.to_i
+    i=0
 
+    intervals.each do |interval|
+      i +=interval.time_in_work
     end
 
-    Time.at i
-    #{h: h, m: m, s: s}
-    #Time.at(h.hours+m.minutes+s.seconds)
+    i
+  end
+
+  def get_int_from_date date
+    h = date.to_formatted_s(:only_hours).to_i
+    m = date.to_formatted_s(:only_minutes).to_i
+    s = date.to_formatted_s(:only_seconds).to_i
+
+    h*3600+m*60+s
   end
 end

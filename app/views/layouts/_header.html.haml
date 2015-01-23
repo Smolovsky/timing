@@ -29,14 +29,13 @@
                   = current_user.username
                   = link_to 'Выйти', destroy_user_session_path, :method => :delete
             - else
-
               %li
                 = link_to image_tag('Twitter-round.png', class: "auth_img"), user_omniauth_authorize_path(:vkontakte), style: 'padding: 0px 5px;'
               %li
-                = link_to image_tag('Facebook-Round.png', class: "auth_img"), user_omniauth_authorize_path(:facebook), style: 'padding: 0px 5px;'
+                = link_to image_tag('vk.png', class: "auth_img"), user_omniauth_authorize_path(:vkontakte), style: 'padding: 0px 5px;'
+              %li
+                = link_to image_tag('fc.png', class: "auth_img"), user_omniauth_authorize_path(:facebook), style: 'padding: 0px 5px;'
               %li
                 = link_to 'Войти', new_user_session_path
               %li
                 = link_to 'Зарегистрироваться', new_user_registration_path
-              %li
-                %a{:href => '/blog'} Blog

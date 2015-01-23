@@ -15,7 +15,7 @@
       %tr
         %td= task.name
         %td= task.time_to_plan
-        %td= get_total_time task
+        %td= task.get_total_time task
         %td= link_to 'Show', task
         %td= link_to 'Edit', edit_task_path(task)
         %td= link_to 'Destroy', task, :method => :delete, :data => { :confirm => 'Are you sure?' }

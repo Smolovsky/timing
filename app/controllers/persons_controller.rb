@@ -1,4 +1,5 @@
 class PersonsController < ApplicationController
+  before_filter :authenticate_user!
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
   respond_to :html
@@ -47,8 +48,6 @@ class PersonsController < ApplicationController
     end
 
     def user_params
-      #user = User.find(params[:id])
-      #binding.pry
       params.require(:user).permit(:username, :nickname, :provider, :url)
     end
 end

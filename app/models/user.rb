@@ -64,4 +64,16 @@ class User < ActiveRecord::Base
   def reset_authentication_token!
     self.authentication_token = generate_authentication_token
   end
+
+  def admin?
+    current_user.role == 'admin'
+  end
+
+  def visitor?
+    current_user.role == ''
+  end
+
+  def owner?
+    current_user.role == 'owner'
+  end
 end

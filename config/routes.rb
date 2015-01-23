@@ -14,8 +14,10 @@ Rails.application.routes.draw do
   post 'tasks/ajax',to: 'days#ajax'
   get   'person/im', to: 'persons#im' , as: 'user_im'
   post  'persons/:id/edit', to: 'persons#update'
+  post 'get_days' => 'homes#list_days'
 
   devise_for :users, :controllers => {  :omniauth_callbacks => "persons/omniauth_callbacks" ,:sessions => 'sessions', :registrations => 'registrations'}
+
 
   #resources :persons, :only => [:index, :destroy]
   #root :to => 'persons#index'
