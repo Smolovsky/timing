@@ -39,13 +39,16 @@ class TasksController < ApplicationController
   end
 
   def destroy
+    @task.days.each { |day| day.session_of_timers.destroy_all }
+    @task.days.destroy_all
     @task.destroy
+
     respond_with(@task)
   end
 
   private
     def set_task
-      @task = Task.find(params[:id])
+      @task = Task.find_by_id(params[:id])
     end
 
     def task_params

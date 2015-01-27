@@ -2,55 +2,24 @@ class Day < ActiveRecord::Base
   belongs_to :task
   has_many :session_of_timers
 
-  def save_time(time, time_to_plan,is_new_day)
+  def save_time(time, time_to_plan,date)
     self.time_to_plan = time_to_plan
 
     if self.save
       true
     end
 
-    date = Time.now
-    date -= 1.day if is_new_day
-
-    session_of_timers.create(date: date, time_in_work: time, day_id: self.id)
+    self.session_of_timers.create(start_time: date, time_in_work: time)
   end
 
-  def get_formatted_sum_time_of_day(day_id)
-    total_time = get_sum_time day_id
-
-    h = total_time/3600
-    m = (total_time-h*3600)/60
-    s = total_time - h*3600 - m*60
-
-    h='0'+h.to_s if h<10
-    m='0'+m.to_s if m<10
-    s='0'+s.to_s if s<10
-
-    "#{h}:#{m}:#{s}"
+  def get_formatted_sum_time_of_day
+    total_time = self.session_of_timers.sum(:time_in_work).to_i
+    int_to_time(total_time)
   end
 
-  def get_total_time_of_day(day_id, time_to_plan)
-    total_time = get_sum_time day_id
-    time_to_plan = get_int_from_date(time_to_plan)
-
-    if total_time <= time_to_plan
-      total_time = time_to_plan - total_time
-    else
-      total_time = total_time - time_to_plan
-    end
-
-    total_time
-  end
-
-  def get_sum_time(day_id)
-    intervals = SessionOfTimer.where(day_id: day_id)
-    i=0
-
-    intervals.each do |interval|
-      i +=interval.time_in_work
-    end
-
-    i
+  def get_total_time_of_day
+    total_time = self.session_of_timers.sum(:time_in_work).to_i
+    total_time - get_int_from_date(self.time_to_plan)
   end
 
   def get_int_from_date date
@@ -60,4 +29,17 @@ class Day < ActiveRecord::Base
 
     h*3600+m*60+s
   end
+
+  def int_to_time val
+    h = val/3600
+    m = (val-h*3600)/60
+    s = val - h*3600 - m*60
+
+    h='0'+h.to_s if h<10
+    m='0'+m.to_s if m<10
+    s='0'+s.to_s if s<10
+
+    "#{h}:#{m}:#{s}"
+  end
+
 end

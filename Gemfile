@@ -37,9 +37,15 @@ gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'omniauth-vkontakte'
 gem 'cancancan'
-gem 'pry'
+
 gem 'haml-rails'
 gem 'twitter-bootstrap-rails'
+
+group :development, :test do
+  gem "better_errors"
+  gem 'pry'
+end
+
 
 #gem 'debugger', group: [:development, :test]
 

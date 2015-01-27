@@ -5,7 +5,9 @@ class SessionOfTimersController < ApplicationController
   respond_to :html
 
   def index
-    @session_of_timers = SessionOfTimer.all
+    date = params[:date].to_date
+    @session_of_timers = SessionOfTimer.where start_time: (date.midnight..(date+1.day).midnight)
+
     respond_with(@session_of_timers)
   end
 
@@ -43,6 +45,6 @@ class SessionOfTimersController < ApplicationController
     end
 
     def session_of_timer_params
-      params.require(:session_of_timer).permit(:date, :day_id, :time_in_work)
+      params.require(:session_of_timer).permit(:start_time, :day_id, :time_in_work)
     end
 end

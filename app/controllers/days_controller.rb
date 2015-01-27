@@ -2,24 +2,21 @@ class DaysController < ApplicationController
   before_filter :authenticate_user!
 
   def show(task_id)
+    binding.pry
     @days = Day.where(task_id: task_id).order(:date) unless task_id.nil?
-
   end
 
   def ajax
     task = Task.find_by(id: params[:task_id])
-    @days = Day.where(task_id: task.id).order(:date)
+    @days = task.days.order(:date)
     time = params[:time].to_i
-    is_new_day = params[:is_new_day] =='true'
+    date = params[:date].to_datetime
 
-    date = Time.now.to_date
-    date -= 1.day if is_new_day
+    @current_day = task.days.find_or_initialize_by(date: date.to_date)
 
-    @current_day = Day.find_or_initialize_by(date: date, task_id: task.id )
-
-    if @current_day.save_time(time,task.time_to_plan, is_new_day)
+    if @current_day.save_time(time, task.time_to_plan, date)
       table =  render_to_string partial: 'table', days: @days
-      total_time = task.get_total_time task
+      total_time = task.get_total_time
 
       render :json => { table: table, total_time: total_time}
     end

@@ -17,8 +17,9 @@
     = favicon_link_tag 'favicon.ico', :rel => 'shortcut icon'
   %body
     = render partial: 'layouts/header'
-    .container
-      .row
+
+    .custom
+      .home1
         = bootstrap_flash
         = yield
     .footer.text-center

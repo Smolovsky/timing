@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   get   'person/im', to: 'persons#im' , as: 'user_im'
   post  'persons/:id/edit', to: 'persons#update'
   post 'get_days' => 'homes#list_days'
+  get 'sessions_of_timer/:date', to: 'session_of_timers#index', as: 'sessions_of_timer_by_date'
 
   devise_for :users, :controllers => {  :omniauth_callbacks => "persons/omniauth_callbacks" ,:sessions => 'sessions', :registrations => 'registrations'}
 

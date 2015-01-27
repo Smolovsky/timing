@@ -14,8 +14,8 @@
     - @tasks.each do |task|
       %tr
         %td= task.name
-        %td= task.time_to_plan
-        %td= task.get_total_time task
+        %td= task.time_to_plan.to_formatted_s(:only_time)
+        %td= task.get_total_time
         %td= link_to 'Show', task
         %td= link_to 'Edit', edit_task_path(task)
         %td= link_to 'Destroy', task, :method => :delete, :data => { :confirm => 'Are you sure?' }

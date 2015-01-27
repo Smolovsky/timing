@@ -1,25 +1,15 @@
 %h1 Listing session_of_timers
 
-%table
+%table.table.main-table
   %thead
     %tr
       %th Date
-      %th Day
       %th Time in work
-      %th
-      %th
-      %th
       
   %tbody
     - @session_of_timers.each do |session_of_timer|
       %tr
-        %td= session_of_timer.date
-        %td= session_of_timer.day_id
-        %td= session_of_timer.time_in_work
-        %td= link_to 'Show', session_of_timer
-        %td= link_to 'Edit', edit_session_of_timer_path(session_of_timer)
-        %td= link_to 'Destroy', session_of_timer, :method => :delete, :data => { :confirm => 'Are you sure?' }
+        %td= session_of_timer.start_time
+        %td= session_of_timer.day.int_to_time session_of_timer.time_in_work
 
 %br
-
-= link_to 'New Session of timer', new_session_of_timer_path

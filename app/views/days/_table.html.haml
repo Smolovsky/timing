@@ -6,10 +6,10 @@
       %th Summary day time
   - @days.each do |d|
     %tbody.left-aligned-tbody
-      %tr
+      %tr{onclick: "location.href = '#{sessions_of_timer_by_date_path d.date}'"}
         %td
           =d.date
         %td
           =d.time_to_plan.to_formatted_s(:only_time)
         %td
-          =d.get_formatted_sum_time_of_day(d.id)
+          =d.get_formatted_sum_time_of_day
